@@ -14,30 +14,31 @@ callback: async(client, interaction) => {
     const bracket = interaction.options.get('bracket-choice').value;
     const region = interaction.options.get('region').value;
     const page = interaction.options.get('page').value;
-    const playerName = interaction.options.get('player-name').value;
 
     try{
         var options = {
             bracket,
             region,
-            page,
-            playerName
+            page
         }
-        bh_api.
         
-        bh_api.fetchLeaderboard(options).then(leaderboard => {
+        leaderboard = bh_api.fetchLeaderboard(options).catch(err => console.log(err)).then(leaderboard => {console.log(leaderboard);
         
         })
+
+        await interaction.reply(`${leaderboard}`);
+
         return;
     }catch(error){
 
-        console.log(`Error returning player ranking: ${error}`);
+        return console.log(`Error returning player ranking: ${error}`);
+        
 
     }
 
 },
 
-    name: 'ranking',
+    name: 'leaderboard',
     description: 'replies with Brawlhalla rank',
     options:[
         {
@@ -111,13 +112,7 @@ callback: async(client, interaction) => {
                 },
             ],
         },
-        {
-            name: "player-name",
-            description: "input player name",
-            type: ApplicationCommandOptionType.String,
-            required: true,
-            value: '',
-        },
+
 
     ],
 };
