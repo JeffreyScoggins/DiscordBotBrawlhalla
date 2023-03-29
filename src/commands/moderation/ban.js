@@ -25,19 +25,19 @@ module.exports = {
             return;
         }
         
-        const targetUserRolePosition = targetUser.roles.highest.position; // Highest role of target user
-        const requestUserRolePosition = interaction.member.roles.highest.position; //highest role of user running command
-        const botRolePosition = interaction.guild.me.roles.highest.position // Highest role of bot
+        // const targetUserRolePosition = targetUser.roles.highest.position; // Highest role of target user
+        // const requestUserRolePosition = interaction.member.roles.highest.position; //highest role of user running command
+        // const botRolePosition = interaction.guild.me.roles.highest.position // Highest role of bot
 
-        if (targetUserRolePosition >= requestUserRolePosition){
-            await interaction.editReply("You can't ban users that have the same/higher role.", {verbose: true});
-            return;
-        }
+        // if (targetUserRolePosition >= requestUserRolePosition){
+        //     await interaction.editReply("You can't ban users that have the same/higher role.", {verbose: true});
+        //     return;
+        // }
 
-        if (targetUserRolePosition >= botRolePosition){
-            await interaction.editReply("I can't ban users that have the same/higher role than me.", {verbose: true});
-            return;
-        }
+        // if (targetUserRolePosition >= botRolePosition){
+        //     await interaction.editReply("I can't ban users that have the same/higher role than me.", {verbose: true});
+        //     return;
+        // }
 
         //Bans target user
         try{
