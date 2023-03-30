@@ -13,7 +13,7 @@ callback: async(client, interaction) => {
 
     const bracket = interaction.options.get('bracket-choice').value;
     const region = interaction.options.get('region').value;
-    const page = interaction.options.get('page').value;
+    const page = Number('1');
 
     try{
         var options = {
@@ -21,18 +21,48 @@ callback: async(client, interaction) => {
             region,
             page
         }
-        
-        leaderboard = bh_api.fetchLeaderboard(options).catch(err => console.log(err)).then(leaderboard => {console.log(leaderboard);
-        
-        })
+    
+    leaderboard = await bh_api.fetchLeaderboard(options).catch(err => console.log(err));
+    let leaderboardString = "";
 
-        await interaction.reply(`${leaderboard}`);
+    for (let [key, value, count] of Object.entries(leaderboard)) {
+        count = ++key;
+        if (count > 10){
+            break;
+        } else {
+        leaderboardString +="**Rank:** " + count + "\n";
+        leaderboardString += "**Name:** " + value.name + "\n";
+        leaderboardString += "**Tier: **" + value.tier + "\n";
+        leaderboardString += "**Games Played:** " + value.games + "\n";
+        leaderboardString += "**Games Won:** " + value.wins + "\n";
+        leaderboardString += "**Win Ratio:** " + value.wins/value.games + "\n";
+        leaderboardString +="\n";
+        }
+    }
 
-        return;
+    //console.log(leaderboardString);
+    if (leaderboardString.length < 2000){
+   
+        interaction.reply(`${leaderboardString}`);
+    } else {
+
+        // Creates a "message already created error" on 2nd loop////////////FIX ME////////////
+        for (let i = 0, amount = Math.ceil(leaderboardString.length / 2000); i <= amount; i++){
+            let breakLine = leaderboardString.lastIndexOf("```", 2000);
+            leaderboardSubstring = leaderboardString.substring(0, breakLine);
+            leaderboardString = leaderboardString.substring(breakLine, leaderboardString.length - 1);
+            interaction.reply(`${leaderboardSubstring}`);
+
+            
+        }
+    }
+    
+
+    return;
+
     }catch(error){
 
         return console.log(`Error returning player ranking: ${error}`);
-        
 
     }
 
@@ -70,49 +100,35 @@ callback: async(client, interaction) => {
                     value: 'all',
                 },
                 {
-                    name: 'us-e',
+                    name: 'usa-east',
                     value: 'us-e',
                 },
                 {
-                    name: 'us-e',
+                    name: 'usa-west',
                     value: 'us-w',
                 },
                 {
-                    name: 'eu',
+                    name: 'europe',
                     value: 'eu',
                 },
                 {
-                    name: 'brz',
+                    name: 'brazil',
                     value: 'brz',
                 },
                 {
-                    name: 'aus',
+                    name: 'austrailia',
                     value: 'aus',
                 },
                 {
-                    name: 'sea',
+                    name: 'souteast-asia',
                     value: 'sea',
                 },
                 {
-                    name: 'jap',
+                    name: 'japan',
                     value: 'jap',
                 },
             ],
 
         },
-        {
-            name: 'page',
-            description: 'Page length',
-            type: ApplicationCommandOptionType.Number,
-            required: true,
-            choices:[
-                {
-                name: '1',
-                value: 1,
-                },
-            ],
-        },
-
-
     ],
 };

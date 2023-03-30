@@ -11,16 +11,16 @@ module.exports = {
     
 callback: async(client, interaction) => {
 
-    const playerName = interaction.options.get('player-name').value;     
+    const playerName = interaction.options.get('player-name').value;  
+    var options = {
+        perfect_match: false,
+        unique: false
+    }   
 
     try{
        
-        var player = playerName;
-        bh_api.
-        playerStats = bh_api.findPlayer(player).catch(err => console.log(err)).then(playerStats => {console.log(playerStats);
-        //playerStats = bh_api.fetchPlayerStats(player).then(playerStats => {console.log(playerStats);
+        playerStats = bh_api.findPlayer(playerName, options).catch(err => console.log(err)).then(playerStats => {console.log(playerStats);
         })
-
         //await interaction.reply(`${playerStats}`);
 
         return;
